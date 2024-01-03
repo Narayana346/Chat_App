@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1005785760386",
+    "project_id": "chart-app-f88dc",
+    "storage_bucket": "chart-app-f88dc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1005785760386:android:ad521ebb0580ed6c52aa9b",
+        "android_client_info": {
+          "package_name": "com.example.chart_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZB0N2Lf6AJzUpvBxsAfHAG8ZrZUfUSHc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

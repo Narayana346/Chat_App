@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/app_navigation_graph"
+    app:startDestination="@id/verification">
+
+    <fragment
+        android:id="@+id/verification"
+        android:name="com.example.chart_app.view.ui.Verification"
+        android:label="fragment_verification"
+        tools:layout="@layout/fragment_verification" >
+        <action
+            android:id="@+id/action_verification_to_otpVerify"
+            app:destination="@id/otpVerify" />
+        <action
+            android:id="@+id/action_verification_to_users"
+            app:destination="@id/users" />
+    </fragment>
+    <fragment
+        android:id="@+id/otpVerify"
+        android:name="com.example.chart_app.view.ui.OtpVerify"
+        android:label="fragment_otp_verify"
+        tools:layout="@layout/fragment_otp_verify" >
+        <action
+            android:id="@+id/action_otpVerify_to_profile2"
+            app:destination="@id/profile2" />
+    </fragment>
+    <fragment
+        android:id="@+id/profile2"
+        android:name="com.example.chart_app.view.ui.Profile"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" >
+
+        <action
+            android:id="@+id/action_profile2_to_chart"
+            app:destination="@id/chart" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/users"
+        android:name="com.example.chart_app.view.ui.Users"
+        android:label="fragment_users"
+        tools:layout="@layout/fragment_users" >
+        <action
+            android:id="@+id/action_users_to_chart"
+            app:destination="@id/chart" />
+    </fragment>
+    <fragment
+        android:id="@+id/chart"
+        android:name="com.example.chart_app.view.ui.Chart"
+        android:label="fragment_chart"
+        tools:layout="@layout/fragment_chart" >
+        <action
+            android:id="@+id/action_chart_to_profile2"
+            app:destination="@id/profile2" />
+        <action
+            android:id="@+id/action_chart_to_users"
+            app:destination="@id/users" />
+    </fragment>
+</navigation>
