@@ -32,9 +32,13 @@
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" >
 
+
         <action
-            android:id="@+id/action_profile2_to_chart"
-            app:destination="@id/chart" />
+            android:id="@+id/action_profile2_to_verification"
+            app:destination="@id/verification" />
+        <action
+            android:id="@+id/action_profile2_to_users"
+            app:destination="@id/users" />
 
     </fragment>
     <fragment
@@ -51,9 +55,6 @@
         android:name="com.example.chart_app.view.ui.Chart"
         android:label="fragment_chart"
         tools:layout="@layout/fragment_chart" >
-        <action
-            android:id="@+id/action_chart_to_profile2"
-            app:destination="@id/profile2" />
         <action
             android:id="@+id/action_chart_to_users"
             app:destination="@id/users" />

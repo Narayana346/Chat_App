@@ -64,10 +64,19 @@
                     android:autofillHints="" />
 
                 <Button
-                    android:id="@+id/continueBtn"
+                    android:id="@+id/setupProfile"
                     android:textSize="17sp"
                     android:textStyle="bold|normal"
                     android:text="Setup Profile"
+                    android:textAllCaps="false"
+                    android:backgroundTint="#88652EA3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <Button
+                    android:id="@+id/signOutBtn"
+                    android:textSize="17sp"
+                    android:textStyle="bold|normal"
+                    android:text="LOGOUT"
                     android:textAllCaps="false"
                     android:backgroundTint="#88652EA3"
                     android:layout_width="match_parent"

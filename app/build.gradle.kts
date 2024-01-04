@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.fir.declarations.builder.buildScript
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -41,11 +43,12 @@ android {
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.navigation:navigation-fragment:2.7.6")
+    implementation("com.google.android.gms:play-services-cast-framework:21.4.0")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -55,17 +58,17 @@ dependencies {
     implementation ("com.hbb20:ccp:2.5.0")
     //firebase
     dependencies {
-        //fireStore
-        implementation("com.google.firebase:firebase-firestore:24.10.0")
         // Import the BoM for the Firebase platform
         implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
-
-        // Add the dependency for the Firebase Authentication library
-        // When using the BoM, you don't specify versions in Firebase library dependencies
+        // firebase authentication
         implementation("com.google.firebase:firebase-auth")
-
-        // When using the BoM, don't specify versions in Firebase dependencies
+        // firebase analytics
         implementation("com.google.firebase:firebase-analytics")
-
+        // realtime database
+        implementation("com.google.firebase:firebase-database")
+        // storage
+        implementation("com.google.firebase:firebase-storage")
+        //fireStore
+        implementation("com.google.firebase:firebase-firestore:24.10.0")
     }
 }

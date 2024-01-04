@@ -22,7 +22,7 @@ class Verification : Fragment(R.layout.fragment_verification) {
         binding.countryCode.registerCarrierNumberEditText(binding.mobileNo)
 
         binding.sendOTP.setOnClickListener {
-            val phoneNo = binding.mobileNo.text.toString()
+            val phoneNo = binding.countryCode.fullNumberWithPlus
             if(!binding.countryCode.isValidFullNumber){
                 binding.mobileNo.error = "Phone number is not valid"
                 return@setOnClickListener

@@ -2,6 +2,7 @@ package com.example.chart_app.model
 
 import android.app.Activity
 import com.google.firebase.FirebaseException
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
@@ -32,7 +33,7 @@ class UserAuthService {
             }
         }
         val builder = PhoneAuthOptions.newBuilder(auth)
-            .setPhoneNumber("+91 $phoneNumber")
+            .setPhoneNumber(phoneNumber)
             .setTimeout(60L ,TimeUnit.SECONDS)
             .setActivity(activity)
             .setCallbacks(callback)
@@ -58,7 +59,7 @@ class UserAuthService {
             }
         }
         val builder = PhoneAuthOptions.newBuilder(auth)
-            .setPhoneNumber("+91 $phoneNumber")
+            .setPhoneNumber(phoneNumber)
             .setTimeout(60L ,TimeUnit.SECONDS)
             .setActivity(activity)
             .setCallbacks(callback)
@@ -77,5 +78,11 @@ class UserAuthService {
             }
         }
 
+    }
+    fun getCurrentUser(): FirebaseUser? {
+        return auth.currentUser
+    }
+    fun signOut(){
+        auth.signOut()
     }
 }
