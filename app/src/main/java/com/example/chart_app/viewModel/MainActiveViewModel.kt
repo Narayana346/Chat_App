@@ -43,5 +43,10 @@ class MainActiveViewModel(private val userAuthService: UserAuthService,private v
     fun writeNewUser(user: User,image: Uri){
         firebaseService.createNewUser(user,image)
     }
-
+    suspend fun getUser(): User?{
+        return firebaseService.singleUser()
+    }
+    fun getUsers(): MutableLiveData<List<User>> {
+        return firebaseService.getUsers()
+    }
 }

@@ -8,16 +8,22 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.example.chart_app.R
 import com.example.chart_app.databinding.FragmentProfileBinding
 import com.example.chart_app.model.User
 import com.example.chart_app.view.MainActivity
 import com.example.chart_app.viewModel.MainActiveViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import java.util.Date
 
-@Suppress("DEPRECATION")
+@Suppress("DEPRECATION", "NAME_SHADOWING")
 class Profile : Fragment(R.layout.fragment_profile) {
     private lateinit var binding :FragmentProfileBinding
     private lateinit var viewModel: MainActiveViewModel
@@ -29,18 +35,32 @@ class Profile : Fragment(R.layout.fragment_profile) {
         binding = FragmentProfileBinding.bind(view)
         viewModel = (activity as MainActivity).viewModel
 
+        var user:User? = null
+        GlobalScope.launch(Dispatchers.Main){
+            async {
+                user = viewModel.getUser()
+            }.await()
+            if (user != null){
+                Glide.with(requireContext()).load(user!!.profileImg?.toUri())
+                    .placeholder(R.drawable.account_img)
+                    .into(binding.profileImage)
+                binding.profileHeading.text = user!!.name.toString()
+                binding.userName.hint = user!!.name.toString()
+            }
+        }
+
         binding.profileImage.setOnClickListener {
             pickImageFromGallery()
         }
 
 
         binding.setupProfile.setOnClickListener {
+            val userInfo =viewModel.getCurrentUser()
             val formatter = SimpleDateFormat("EE,d MM yyyy HH: mm")
-            val name = binding.editName.text.toString()
+            val name = binding.userName.text.toString()
             if (name.isEmpty()){
-                binding.editName.error = "Please Enter Name"
+                binding.userName.error = "Please Enter Name"
             }else{
-                val userInfo =viewModel.getCurrentUser()
                 val user = User(
                     uid = userInfo?.uid,
                     name = name,

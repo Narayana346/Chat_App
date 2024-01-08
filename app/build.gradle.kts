@@ -71,4 +71,7 @@ dependencies {
         //fireStore
         implementation("com.google.firebase:firebase-firestore:24.10.0")
     }
+
+    //glide photo caching library
+    implementation ("com.github.bumptech.glide:glide:4.16.0")
 }

@@ -22,7 +22,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/profile01"
+                    android:id="@+id/profileImg"
                     android:layout_marginLeft="10dp"
                     android:layout_gravity="center"
                     android:src="@drawable/account_img"

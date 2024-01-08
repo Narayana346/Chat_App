@@ -49,6 +49,9 @@
         <action
             android:id="@+id/action_users_to_chart"
             app:destination="@id/chart" />
+        <action
+            android:id="@+id/action_users_to_profile2"
+            app:destination="@id/profile2" />
     </fragment>
     <fragment
         android:id="@+id/chart"
@@ -58,5 +61,8 @@
         <action
             android:id="@+id/action_chart_to_users"
             app:destination="@id/users" />
+        <action
+            android:id="@+id/action_chart_to_profile2"
+            app:destination="@id/profile2" />
     </fragment>
 </navigation>

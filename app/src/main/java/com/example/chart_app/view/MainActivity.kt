@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
 
         val user = viewModel.getCurrentUser()
         if(user != null){
-            navController.navigate(R.id.profile2)
+            navController.navigate(R.id.users)
         }else {
             navController.navigate(R.id.verification)
         }
