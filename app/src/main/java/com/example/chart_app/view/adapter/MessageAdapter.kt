@@ -87,13 +87,13 @@ class MessageAdapter(
                 binding.everyone.setOnClickListener{
                     message.message = "This message is Removed"
                     message.messageId?.let {
-                        FirebaseDatabase.getInstance().reference.child("charts")
+                        FirebaseDatabase.getInstance().reference.child("chats")
                             .child(senderRoom)
                             .child("message")
                             .child(it).setValue(message)
                     }
                     message.messageId?.let {
-                        FirebaseDatabase.getInstance().reference.child("charts")
+                        FirebaseDatabase.getInstance().reference.child("chats")
                             .child(receiverRoom)
                             .child("message")
                             .child(it).setValue(message)

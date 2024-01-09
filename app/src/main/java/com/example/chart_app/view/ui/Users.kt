@@ -8,6 +8,7 @@ import androidx.cardview.widget.CardView
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
@@ -37,7 +38,7 @@ class Users : Fragment(R.layout.fragment_users), UsersItemClickListener {
         dialog!!.setMessage("Uploading Image ..")
         dialog!!.setCancelable(false)
         var user:User? = null
-        GlobalScope.launch(Dispatchers.Main){
+        lifecycleScope.launch(Dispatchers.Main){
             async {
                 user = viewModel.getUser()
             }.await()
