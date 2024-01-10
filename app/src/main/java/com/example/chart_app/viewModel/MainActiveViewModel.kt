@@ -10,8 +10,11 @@ import com.example.chart_app.model.User
 import com.example.chart_app.model.UserAuthService
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.PhoneAuthCredential
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class MainActiveViewModel(private val userAuthService: UserAuthService,private val firebaseService:FirebaseService):ViewModel() {
+@HiltViewModel
+class MainActiveViewModel @Inject constructor (private val userAuthService: UserAuthService,private val firebaseService:FirebaseService):ViewModel() {
     var userLoginStatus:MutableLiveData<AuthResult> = MutableLiveData()
     var otpStatus:MutableLiveData<AuthResult> = MutableLiveData()
     var reSendOtpStatus:MutableLiveData<AuthResult> = MutableLiveData()

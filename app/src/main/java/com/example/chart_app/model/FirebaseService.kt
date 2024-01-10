@@ -2,6 +2,7 @@
 
 package com.example.chart_app.model
 
+import android.annotation.SuppressLint
 import android.app.ProgressDialog
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
@@ -13,8 +14,9 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.tasks.await
+import javax.inject.Inject
 
-class FirebaseService {
+class FirebaseService @Inject constructor(){
     private  val database = Firebase.database
     private val storage = Firebase.storage
     private val auth = Firebase.auth
@@ -68,6 +70,7 @@ class FirebaseService {
             })
         return user
     }
+    @SuppressLint("SuspiciousIndentation")
     fun getUsers(): MutableLiveData<List<User>> {
         val liveUsers: MutableLiveData<List<User>> = MutableLiveData<List<User>>()
             database.reference.child("users").addValueEventListener(object : ValueEventListener {

@@ -1,9 +1,9 @@
-import org.jetbrains.kotlin.fir.declarations.builder.buildScript
-
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.gms.google-services")
+    kotlin("kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -39,6 +39,7 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
 }
 
 dependencies {
@@ -74,4 +75,8 @@ dependencies {
 
     //glide photo caching library
     implementation ("com.github.bumptech.glide:glide:4.16.0")
+
+    // dagger hilt
+    implementation("com.google.dagger:hilt-android:2.44")
+    kapt("com.google.dagger:hilt-android-compiler:2.44")
 }

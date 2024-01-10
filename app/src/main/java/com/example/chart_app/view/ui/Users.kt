@@ -1,13 +1,12 @@
 package com.example.chart_app.view.ui
 
 import android.app.ProgressDialog
+import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.cardview.widget.CardView
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -19,8 +18,9 @@ import com.example.chart_app.view.MainActivity
 import com.example.chart_app.view.adapter.UserAdapter
 import com.example.chart_app.view.adapter.UsersItemClickListener
 import com.example.chart_app.viewModel.MainActiveViewModel
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
@@ -71,6 +71,21 @@ class Users : Fragment(R.layout.fragment_users), UsersItemClickListener {
     }
 
     override fun onItemLongClicked(user: User, cardView: CardView) {
+    }
+    override fun onDetach() {
+        super.onDetach()
+        val currentId = FirebaseAuth.getInstance().uid
+        FirebaseDatabase.getInstance()!!.reference.child("Presence")
+            .child(currentId.toString())
+            .setValue("Offline")
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        val currentId = FirebaseAuth.getInstance().uid
+        FirebaseDatabase.getInstance()!!.reference.child("Presence")
+            .child(currentId.toString())
+            .setValue("Online")
     }
 
 }

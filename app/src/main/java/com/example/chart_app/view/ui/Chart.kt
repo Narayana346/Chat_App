@@ -187,13 +187,6 @@ class Chart : Fragment(R.layout.fragment_chart) {
             .setValue("Offline")
     }
 
-    override fun onDetach() {
-        super.onDetach()
-        val currentId = FirebaseAuth.getInstance().uid
-        database!!.reference.child("Presence")
-            .child(currentId.toString())
-            .setValue("Offline")
-    }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 25){
@@ -246,5 +239,4 @@ class Chart : Fragment(R.layout.fragment_chart) {
             }
         }
     }
-
 }

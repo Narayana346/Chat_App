@@ -9,8 +9,9 @@ import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
-class UserAuthService {
+class UserAuthService @Inject constructor(){
     private val auth = Firebase.auth
     lateinit var verificationCode : String
     lateinit var reSendingToken:PhoneAuthProvider.ForceResendingToken
