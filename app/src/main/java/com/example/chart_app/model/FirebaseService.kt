@@ -5,11 +5,14 @@ package com.example.chart_app.model
 import android.annotation.SuppressLint
 import android.app.ProgressDialog
 import android.net.Uri
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.chart_app.view.adapter.MessageAdapter
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.getValue
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -60,7 +63,6 @@ class FirebaseService @Inject constructor(){
     }
     fun getUser(): User? {
         var user :User? = null
-
         database.reference.child("users")
             .child("${auth.uid}").addValueEventListener(object : ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot){
@@ -90,6 +92,50 @@ class FirebaseService @Inject constructor(){
                 override fun onCancelled(error: DatabaseError) {}
             })
         return liveUsers
+    }
+
+    fun getStatus(receiveUid:String): LiveData<String> {
+        val status:MutableLiveData<String> = MutableLiveData()
+        database!!.reference.child("Presence").child(receiveUid)
+            .addValueEventListener(object :ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if(snapshot.exists()){
+                        status.value= snapshot.getValue(String::class.java).toString()
+                    }
+                }
+                override fun onCancelled(error: DatabaseError) {}
+
+            })
+        return status
+    }
+    fun getUid(): String? {
+        return auth.uid
+    }
+    fun setStatus(uid:String,status:String){
+        database!!.reference.child("Presence")
+            .child(uid)
+            .setValue(status)
+    }
+    fun getUsers(senderRoom:String,messages:ArrayList<Message>,adapter:MessageAdapter){
+        database!!.reference.child("chats")
+            .child(senderRoom)
+            .child("message")
+            .addValueEventListener(object :ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    messages.clear()
+                    for (snap in snapshot.children){
+                        val message: Message? = snap.getValue(Message::class.java)
+                        message?.messageId = snap.key
+                        if (message != null) {
+                            messages.add(message)
+                        }
+                    }
+                    adapter!!.notifyDataSetChanged()
+                }
+
+                override fun onCancelled(error: DatabaseError) {}
+
+            })
     }
 
 }

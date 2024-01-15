@@ -21,11 +21,7 @@ import com.example.chart_app.model.User
 import com.example.chart_app.view.MainActivity
 import com.example.chart_app.view.adapter.MessageAdapter
 import com.example.chart_app.viewModel.MainActiveViewModel
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import java.util.Calendar
 import java.util.Date
@@ -56,54 +52,26 @@ class Chart : Fragment(R.layout.fragment_chart) {
             .into(binding.profileImg)
         binding.name.text = user.name
         receiveUid = user.uid.toString()
-        sendUid = FirebaseAuth.getInstance().uid.toString()
+        sendUid = viewModel.getUid().toString()
         storage = FirebaseStorage.getInstance()
         dilog = ProgressDialog(requireContext())
         dilog.setMessage("Uploading")
         dilog.setCancelable(false)
         messages = ArrayList()
-        database!!.reference.child("Presence").child(receiveUid)
-            .addValueEventListener(object :ValueEventListener{
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    if(snapshot.exists()){
-                        val  status = snapshot.getValue(String::class.java)
-                        if(status == "offline"){
-                            binding.status.visibility = View.GONE
-                        }else{
-                            binding.status.text = status
-                        }
-                    }
-                }
-
-                override fun onCancelled(error: DatabaseError) {}
-
-            })
+        viewModel.getStatus(receiveUid).observe(viewLifecycleOwner){ status ->
+            if(status == "Offline"){
+                binding.status.visibility = View.GONE
+            }else{
+                binding.status.text = status
+            }
+        }
         senderRoom = sendUid+receiveUid
         receiverRoom = receiveUid+sendUid
         adapter = MessageAdapter(requireContext(),messages,senderRoom!!,receiverRoom)
         binding.recycleView.layoutManager = LinearLayoutManager(requireContext())
         binding.recycleView.adapter = adapter
 
-
-        database!!.reference.child("chats")
-            .child(senderRoom)
-            .child("message")
-            .addValueEventListener(object :ValueEventListener{
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    messages.clear()
-                    for (snap in snapshot.children){
-                        val message: Message? = snap.getValue(Message::class.java)
-                        message?.messageId = snap.key
-                        if (message != null) {
-                            messages.add(message)
-                        }
-                    }
-                    adapter!!.notifyDataSetChanged()
-                }
-
-                override fun onCancelled(error: DatabaseError) {}
-
-            })
+        viewModel.getUsers(senderRoom,messages,adapter)
 
 
 
@@ -152,21 +120,15 @@ class Chart : Fragment(R.layout.fragment_chart) {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
             }
-
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             }
-
             override fun afterTextChanged(s: Editable?) {
-                database!!.reference.child("Presence")
-                    .child(sendUid)
-                    .setValue("typing...")
+                viewModel.setStatus(sendUid,"typing...")
                 handler.removeCallbacksAndMessages(null)
-                handler.postDelayed(userStopedTyping,1000)
+                handler.postDelayed(userStoppedTyping,1000)
             }
-            var userStopedTyping = Runnable {
-                database!!.reference.child("Presence")
-                    .child(sendUid)
-                    .setValue("Online")
+            var userStoppedTyping = Runnable {
+                viewModel.setStatus(sendUid,"Online")
             }
 
         })
@@ -174,17 +136,17 @@ class Chart : Fragment(R.layout.fragment_chart) {
 
     override fun onResume() {
         super.onResume()
-        val currentId = FirebaseAuth.getInstance().uid
-        database!!.reference.child("Presence")
-            .child(currentId.toString())
-            .setValue("Online")
+        val currentId:String? = viewModel.getUid()
+        if (currentId != null) {
+            viewModel.setStatus(currentId,"Online")
+        }
     }
     override fun onPause() {
         super.onPause()
-        val currentId = FirebaseAuth.getInstance().uid
-        database!!.reference.child("Presence")
-            .child(currentId.toString())
-            .setValue("Offline")
+        val currentId = viewModel.getUid()
+        if (currentId != null) {
+            viewModel.setStatus(currentId,"Offline")
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

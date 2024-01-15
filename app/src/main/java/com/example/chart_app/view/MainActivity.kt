@@ -7,15 +7,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import com.example.chart_app.R
 import com.example.chart_app.databinding.ActivityMainBinding
-import com.example.chart_app.model.FirebaseService
-import com.example.chart_app.model.UserAuthService
 import com.example.chart_app.viewModel.MainActiveViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-    val viewModel: MainActiveViewModel by viewModels()
+    val viewModel: MainActiveViewModel  by viewModels<MainActiveViewModel>()
     private lateinit var binding: ActivityMainBinding
     @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
